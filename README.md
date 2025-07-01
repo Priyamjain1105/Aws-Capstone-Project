@@ -1,4 +1,17 @@
 # Aws-Capstone-Project
+
+## Front Pages
+1. Main Site/Home Site
+2. Portfolio form 
+3. Jobs Listing Page
+
+Navigation
+1. User creates his portfolio by filling my the details
+2. Can open the job listing page and can see the avail
+
+
+
+
 ## Database Schema
 ```sql
 -- USERS TABLE: stores both students & recruiters
