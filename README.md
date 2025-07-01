@@ -62,3 +62,49 @@ CREATE TABLE applications (
     FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
 );
 ```
+# Flask Models
+```python
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.Enum('student', 'recruiter'), nullable=False)
+    linkedin_url = db.Column(db.String(255))
+
+    portfolios = db.relationship('Portfolio', backref='user', cascade="all, delete-orphan")
+    jobs = db.relationship('Job', backref='recruiter', cascade="all, delete-orphan")
+    applications = db.relationship('Application', backref='student', cascade="all, delete-orphan", foreign_keys='Application.student_id')
+
+
+class Portfolio(db.Model):
+    __tablename__ = 'portfolios'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    summary = db.Column(db.Text)
+    skills = db.Column(db.Text)
+    resume_s3_url = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Job(db.Model):
+    __tablename__ = 'jobs'
+    id = db.Column(db.Integer, primary_key=True)
+    recruiter_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    title = db.Column(db.String(100))
+    description = db.Column(db.Text)
+    required_skills = db.Column(db.Text)
+    posted_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    applications = db.relationship('Application', backref='job', cascade="all, delete-orphan")
+
+
+class Application(db.Model):
+    __tablename__ = 'applications'
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    status = db.Column(db.Enum('applied', 'shortlisted', 'rejected'), default='applied')
+    applied_at = db.Column(db.DateTime, default=datetime.utcnow)
+```
