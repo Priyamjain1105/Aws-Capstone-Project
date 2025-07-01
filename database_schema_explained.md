@@ -1,5 +1,5 @@
-Absolutely! 🙌
-Here’s a **clear, beginner-friendly description** of each model in your Flask-SQLAlchemy project — explaining **what it represents**, **what its fields mean**, and **how it connects to other models**.
+
+Here’s a **clear,  description** of each model in your Flask-SQLAlchemy project — explaining **what it represents**, **what its fields mean**, and **how it connects to other models**.
 
 ---
 
